@@ -1,7 +1,7 @@
 FROM alpine:latest
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-RUN (apk --update add transmission-daemon tzdata && rm -rf /var/cache/apk/* &&\
+RUN (apk --no-cache add transmission-daemon tzdata &&\
   mkdir -p /var/lib/transmission/.config/transmission-daemon &&\
   chown -R transmission:transmission /var/lib/transmission &&\
   ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime)
