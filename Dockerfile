@@ -1,19 +1,17 @@
-FROM debian:jessie
+FROM alpine:latest
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-RUN (apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y transmission-daemon)
-ADD settings.json /etc/transmission-daemon/settings.json
+RUN (apk --update add transmission-daemon tzdata && rm -rf /var/cache/apk/* &&\
+  mkdir -p /var/lib/transmission/.config/transmission-daemon &&\
+  chown -R transmission:transmission /var/lib/transmission &&\
+  ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime)
 
-RUN (userdel debian-transmission &&\
-  groupadd -g 502 debian-transmission &&\
-  useradd -u 502 -g 502 -d /var/lib/transmission-daemon debian-transmission)
-  
-RUN (ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime &&\
-  chown -R debian-transmission:debian-transmission /etc/transmission-daemon &&\
-  chown -R debian-transmission:debian-transmission /var/lib/transmission-daemon &&\
-  chmod 600 /etc/transmission-daemon/settings.json)
+COPY settings.json /var/lib/transmission/.config/transmission-daemon/settings.json
 
-USER debian-transmission
+RUN (chown transmission:transmission /var/lib/transmission/.config/transmission-daemon/settings.json &&\
+  chmod 600 /var/lib/transmission/.config/transmission-daemon/settings.json)
+
+USER transmission
 WORKDIR /var/lib/transmission-daemon
 EXPOSE 9091 51413/tcp 51413/udp
 VOLUME ["/var/lib/transmission-daemon"]
