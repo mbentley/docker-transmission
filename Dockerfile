@@ -12,9 +12,9 @@ RUN (chown transmission:transmission /var/lib/transmission/.config/transmission-
   chmod 600 /var/lib/transmission/.config/transmission-daemon/settings.json)
 
 USER transmission
-WORKDIR /var/lib/transmission-daemon
+WORKDIR /var/lib/transmission
 EXPOSE 9091 51413/tcp 51413/udp
-VOLUME ["/var/lib/transmission-daemon"]
+VOLUME ["/var/lib/transmission"]
 
 ENTRYPOINT ["/usr/bin/transmission-daemon"]
 CMD ["-f","--log-error","--log-info"]
