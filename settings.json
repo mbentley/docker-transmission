@@ -7,7 +7,6 @@
     "alt-speed-time-end": 1380,
     "alt-speed-up": 250,
     "bind-address-ipv4": "0.0.0.0",
-    "bind-address-ipv6": "::",
     "blocklist-enabled": true,
     "blocklist-url": "http://list.iblocklist.com/?list=bt_level1&fileformat=p2p&archiveformat=gz",
     "cache-size-mb": 4,
