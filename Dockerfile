@@ -2,6 +2,9 @@ FROM alpine:latest
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 RUN (apk --no-cache add transmission-daemon tzdata &&\
+  deluser transmission &&\
+  addgroup -g 504 transmission &&\
+  adduser -h /var/lib/transmission -D -u 504 -g transmission -G transmission -s /sbin/nologin transmission &&\
   mkdir -p /var/lib/transmission/.config/transmission-daemon &&\
   chown -R transmission:transmission /var/lib/transmission &&\
   ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime)
